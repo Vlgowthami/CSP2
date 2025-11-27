@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Tutorials - Learn Digital Apps</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    animation: {
+                        'spin-slow': 'spin 1s linear infinite',
+                        'shimmer': 'shimmer 2s infinite',
+                        'float': 'float 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        shimmer: {
+                            '0%': { transform: 'translateX(-100%)' },
+                            '100%': { transform: 'translateX(100%)' }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-indigo-500 via-purple-600 to-pink-500">
+     <!-- Navigation -->
+    <nav class="bg-white shadow-lg fixed w-full z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <i class="fas fa-laptop text-indigo-600 text-2xl mr-3"></i>
+                    <span class="font-bold text-xl text-gray-800">SmartPanchayat</span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="index.html" class="text-gray-700 hover:text-indigo-600 transition">Home</a>
+                    <a href="#about" class="text-gray-700 hover:text-indigo-600 transition">About</a>
+                    <a href="Yt.html" class="text-gray-700 hover:text-indigo-600 transition">Learn</a>
+                    <a href="Chatbot.html" class="text-gray-700 hover:text-indigo-600 transition">GramBot</a>
+                    <a href="#contact" class="text-gray-700 hover:text-indigo-600 transition">Contact</a>
+                </div>
+                <div class="md:hidden">
+                    <button class="text-gray-700 hover:text-indigo-600">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <!-- Header Section -->
+        <div class="text-center mb-16">
+            <h1 class="text-4xl md:text-6xl font-bold text-white mb-6 drop-shadow-lg">
+                Learn Digital Apps
+            </h1>
+            <p class="text-xl text-white/90 max-w-3xl mx-auto leading-relaxed">
+                Simple video tutorials to help you use popular mobile apps. Click on any app card to watch step-by-step tutorials in your local language.
+            </p>
+        </div>
+
+        <!-- Apps Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            <!-- PhonePe Card -->
+            <div class="app-card group bg-white/95 backdrop-blur-sm rounded-3xl p-8 text-center cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-2xl shadow-xl relative overflow-hidden" onclick="openTutorial('phonepe')">
+                <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+                <div class="relative z-10">
+                    <div class="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-purple-600 to-purple-800 rounded-2xl flex items-center justify-center text-4xl shadow-lg">
+                        📱
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">PhonePe</h3>
+                    <p class="text-gray-600 mb-6 leading-relaxed">Learn how to send money, pay bills, recharge mobile, and use digital payments safely with PhonePe app.</p>
+                    <div class="inline-block bg-gradient-to-r from-red-500 to-orange-500 text-white px-6 py-3 rounded-full font-semibold text-sm shadow-lg">
+                        Watch Tutorial
+                    </div>
+                </div>
+            </div>
+
+            <!-- WhatsApp Card -->
+            <div class="app-card group bg-white/95 backdrop-blur-sm rounded-3xl p-8 text-center cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-2xl shadow-xl relative overflow-hidden" onclick="openTutorial('whatsapp')">
+                <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+                <div class="relative z-10">
+                    <div class="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-green-500 to-green-700 rounded-2xl flex items-center justify-center text-4xl shadow-lg">
+                        💬
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">WhatsApp</h3>
+                    <p class="text-gray-600 mb-6 leading-relaxed">Master WhatsApp messaging, voice calls, video calls, sharing photos, and group chats with easy tutorials.</p>
+                    <div class="inline-block bg-gradient-to-r from-red-500 to-orange-500 text-white px-6 py-3 rounded-full font-semibold text-sm shadow-lg">
+                        Watch Tutorial
+                    </div>
+                </div>
+            </div>
+
+            <!-- Paytm Card -->
+            <div class="app-card group bg-white/95 backdrop-blur-sm rounded-3xl p-8 text-center cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-2xl shadow-xl relative overflow-hidden" onclick="openTutorial('paytm')">
+                <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+                <div class="relative z-10">
+                    <div class="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-blue-500 to-blue-700 rounded-2xl flex items-center justify-center text-4xl shadow-lg">
+                        💳
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Paytm</h3>
+                    <p class="text-gray-600 mb-6 leading-relaxed">Learn Paytm for money transfers, bill payments, mobile recharge, and online shopping payments.</p>
+                    <div class="inline-block bg-gradient-to-r from-red-500 to-orange-500 text-white px-6 py-3 rounded-full font-semibold text-sm shadow-lg">
+                        Watch Tutorial
+                    </div>
+                </div>
+            </div>
+
+            <!-- Google Pay Card -->
+            <div class="app-card group bg-white/95 backdrop-blur-sm rounded-3xl p-8 text-center cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-2xl shadow-xl relative overflow-hidden" onclick="openTutorial('gpay')">
+                <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+                <div class="relative z-10">
+                    <div class="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl flex items-center justify-center text-4xl shadow-lg">
+                        💰
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Google Pay</h3>
+                    <p class="text-gray-600 mb-6 leading-relaxed">Understand Google Pay for quick payments, money requests, bill splitting, and reward earnings.</p>
+                    <div class="inline-block bg-gradient-to-r from-red-500 to-orange-500 text-white px-6 py-3 rounded-full font-semibold text-sm shadow-lg">
+                        Watch Tutorial
+                    </div>
+                </div>
+            </div>
+
+            <!-- YouTube Card -->
+            <div class="app-card group bg-white/95 backdrop-blur-sm rounded-3xl p-8 text-center cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-2xl shadow-xl relative overflow-hidden" onclick="openTutorial('youtube')">
+                <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+                <div class="relative z-10">
+                    <div class="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-red-500 to-red-700 rounded-2xl flex items-center justify-center text-4xl shadow-lg">
+                        📺
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">YouTube</h3>
+                    <p class="text-gray-600 mb-6 leading-relaxed">Learn to watch videos, subscribe to channels, create playlists, and upload your own content on YouTube.</p>
+                    <div class="inline-block bg-gradient-to-r from-red-500 to-orange-500 text-white px-6 py-3 rounded-full font-semibold text-sm shadow-lg">
+                        Watch Tutorial
+                    </div>
+                </div>
+            </div>
+
+            <!-- Facebook Card -->
+            <div class="app-card group bg-white/95 backdrop-blur-sm rounded-3xl p-8 text-center cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-2xl shadow-xl relative overflow-hidden" onclick="openTutorial('facebook')">
+                <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+                <div class="relative z-10">
+                    <div class="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-blue-600 to-blue-800 rounded-2xl flex items-center justify-center text-4xl shadow-lg">
+                        👥
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Facebook</h3>
+                    <p class="text-gray-600 mb-6 leading-relaxed">Master Facebook for connecting with friends, sharing posts, joining groups, and marketplace usage.</p>
+                    <div class="inline-block bg-gradient-to-r from-red-500 to-orange-500 text-white px-6 py-3 rounded-full font-semibold text-sm shadow-lg">
+                        Watch Tutorial
+                    </div>
+                </div>
+            </div>
+
+            <!-- Instagram Card -->
+            <div class="app-card group bg-white/95 backdrop-blur-sm rounded-3xl p-8 text-center cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-2xl shadow-xl relative overflow-hidden" onclick="openTutorial('instagram')">
+                <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+                <div class="relative z-10">
+                    <div class="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-pink-500 to-purple-600 rounded-2xl flex items-center justify-center text-4xl shadow-lg">
+                        📸
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Instagram</h3>
+                    <p class="text-gray-600 mb-6 leading-relaxed">Learn Instagram for photo sharing, stories, reels, following friends, and discovering new content.</p>
+                    <div class="inline-block bg-gradient-to-r from-red-500 to-orange-500 text-white px-6 py-3 rounded-full font-semibold text-sm shadow-lg">
+                        Watch Tutorial
+                    </div>
+                </div>
+            </div>
+
+            <!-- Telegram Card -->
+            <div class="app-card group bg-white/95 backdrop-blur-sm rounded-3xl p-8 text-center cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-2xl shadow-xl relative overflow-hidden" onclick="openTutorial('telegram')">
+                <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+                <div class="relative z-10">
+                    <div class="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-blue-400 to-blue-600 rounded-2xl flex items-center justify-center text-4xl shadow-lg">
+                        ✈️
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Telegram</h3>
+                    <p class="text-gray-600 mb-6 leading-relaxed">Understand Telegram messaging, channels, groups, file sharing, and privacy features.</p>
+                    <div class="inline-block bg-gradient-to-r from-red-500 to-orange-500 text-white px-6 py-3 rounded-full font-semibold text-sm shadow-lg">
+                        Watch Tutorial
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Modal -->
+    <div id="loadingModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center hidden">
+        <div class="bg-white rounded-2xl p-8 text-center max-w-sm mx-4">
+            <div class="w-16 h-16 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin mx-auto mb-4"></div>
+            <h3 class="text-lg font-semibold text-gray-800 mb-2">Opening Tutorial</h3>
+            <p class="text-gray-600">Redirecting to YouTube...</p>
+        </div>
+    </div>
+
+    <script>
+        // YouTube channel URLs for each app
+        const tutorialChannels = {
+            phonepe: 'https://www.youtube.com/results?search_query=phonepe+tutorial+hindi',
+            whatsapp: 'https://www.youtube.com/results?search_query=whatsapp+tutorial+hindi+beginners',
+            paytm: 'https://www.youtube.com/results?search_query=paytm+tutorial+hindi',
+            gpay: 'https://www.youtube.com/results?search_query=google+pay+tutorial+hindi',
+            youtube: 'https://www.youtube.com/results?search_query=youtube+tutorial+hindi+beginners',
+            facebook: 'https://www.youtube.com/results?search_query=facebook+tutorial+hindi',
+            instagram: 'https://www.youtube.com/results?search_query=instagram+tutorial+hindi',
+            telegram: 'https://www.youtube.com/results?search_query=telegram+tutorial+hindi'
+        };
+
+        function openTutorial(app) {
+            const modal = document.getElementById('loadingModal');
+            modal.classList.remove('hidden');
+            
+            setTimeout(() => {
+                window.open(tutorialChannels[app], '_blank');
+                modal.classList.add('hidden');
+            }, 1500);
+        }
+
+        // Entrance animation
+        window.addEventListener('load', () => {
+            const cards = document.querySelectorAll('.app-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(50px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+</html>

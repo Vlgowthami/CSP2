@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Literacy Chatbot</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    animation: {
+                        'bounce-gentle': 'bounce 2s infinite',
+                        'pulse-slow': 'pulse 3s infinite',
+                        'typing': 'typing 1.5s steps(40) infinite'
+                    },
+                    keyframes: {
+                        typing: {
+                            '0%': { width: '0%' },
+                            '50%': { width: '100%' },
+                            '100%': { width: '0%' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        
+        .chat-container {
+            height: 500px;
+            overflow-y: auto;
+            scroll-behavior: smooth;
+        }
+        
+        .chat-container::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .chat-container::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 10px;
+        }
+        
+        .chat-container::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        
+        .chat-container::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        
+        .typing-indicator {
+            display: none;
+        }
+        
+        .typing-indicator.active {
+            display: flex;
+        }
+        
+        .typing-dots span {
+            animation: typing-dots 1.4s infinite ease-in-out;
+        }
+        
+        .typing-dots span:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dots span:nth-child(2) { animation-delay: -0.16s; }
+        
+        @keyframes typing-dots {
+            0%, 80%, 100% { opacity: 0.3; }
+            40% { opacity: 1; }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 min-h-screen">
+   <!-- Navigation -->
+    <nav class="bg-white shadow-lg fixed w-full z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <i class="fas fa-laptop text-indigo-600 text-2xl mr-3"></i>
+                    <span class="font-bold text-xl text-gray-800">SmartPanchayat</span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="index.html" class="text-gray-700 hover:text-indigo-600 transition">Home</a>
+                    <a href="#about" class="text-gray-700 hover:text-indigo-600 transition">About</a>
+                    <a href="learn.html" class="text-gray-700 hover:text-indigo-600 transition">Learn</a>
+                    <a href="#chatbot" class="text-gray-700 hover:text-indigo-600 transition">GramBot</a>
+                    <a href="#contact" class="text-gray-700 hover:text-indigo-600 transition">Contact</a>
+                </div>
+                <div class="md:hidden">
+                    <button class="text-gray-700 hover:text-indigo-600">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="max-w-4xl mx-auto p-20">
+        
+        <!-- Header -->
+        <div class="bg-white/80 backdrop-blur-lg rounded-3xl shadow-xl mb-6 p-6 border border-white/20">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center text-2xl shadow-lg">
+                        🤖
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-800">Digital Literacy Assistant</h1>
+                        <p class="text-gray-600">Learn technology in your language</p>
+                    </div>
+                </div>
+                
+                <!-- Language Selector -->
+                <div class="flex flex-col items-end">
+                    <label class="text-sm text-gray-600 mb-1">Choose Language</label>
+                    <select id="languageSelect" class="bg-white border border-gray-300 rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        <option value="en">English</option>
+                        <option value="hi">हिंदी (Hindi)</option>
+                        <option value="te">తెలుగు (Telugu)</option>
+                        <option value="ta">தமிழ் (Tamil)</option>
+                        <option value="bn">বাংলা (Bengali)</option>
+                        <option value="mr">मराठी (Marathi)</option>
+                        <option value="gu">ગુજરાતી (Gujarati)</option>
+                        <option value="kn">ಕನ್ನಡ (Kannada)</option>
+                        <option value="ml">മലയാളം (Malayalam)</option>
+                        <option value="pa">ਪੰਜਾਬੀ (Punjabi)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Topics -->
+        <div class="bg-white/80 backdrop-blur-lg rounded-3xl shadow-xl mb-6 p-6 border border-white/20">
+            <h2 class="text-lg font-semibold text-gray-800 mb-4">Quick Topics</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <button onclick="askTopic('whatsapp')" class="quick-topic bg-gradient-to-r from-green-400 to-green-600 text-white px-4 py-3 rounded-xl text-sm font-medium hover:scale-105 transition-transform shadow-lg">
+                    📱 WhatsApp
+                </button>
+                <button onclick="askTopic('payment')" class="quick-topic bg-gradient-to-r from-blue-400 to-blue-600 text-white px-4 py-3 rounded-xl text-sm font-medium hover:scale-105 transition-transform shadow-lg">
+                    💳 Digital Payment
+                </button>
+                <button onclick="askTopic('internet')" class="quick-topic bg-gradient-to-r from-purple-400 to-purple-600 text-white px-4 py-3 rounded-xl text-sm font-medium hover:scale-105 transition-transform shadow-lg">
+                    🌐 Internet Basics
+                </button>
+                <button onclick="askTopic('safety')" class="quick-topic bg-gradient-to-r from-red-400 to-red-600 text-white px-4 py-3 rounded-xl text-sm font-medium hover:scale-105 transition-transform shadow-lg">
+                    🔒 Online Safety
+                </button>
+            </div>
+        </div>
+
+        <!-- Chat Interface -->
+        <div class="bg-white/80 backdrop-blur-lg rounded-3xl shadow-xl border border-white/20 overflow-hidden">
+            <!-- Chat Messages -->
+            <div id="chatContainer" class="chat-container p-6 space-y-4">
+                <div class="flex items-start space-x-3">
+                    <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-sm">
+                        🤖
+                    </div>
+                    <div class="bg-gray-100 rounded-2xl rounded-tl-sm px-4 py-3 max-w-md">
+                        <p class="text-gray-800">Hello! I'm your Digital Literacy Assistant. I can help you learn about smartphones, apps, internet, and digital payments in your preferred language. What would you like to learn today?</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Typing Indicator -->
+            <div class="typing-indicator px-6 pb-2">
+                <div class="flex items-start space-x-3">
+                    <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-sm">
+                        🤖
+                    </div>
+                    <div class="bg-gray-100 rounded-2xl rounded-tl-sm px-4 py-3">
+                        <div class="typing-dots flex space-x-1">
+                            <span class="w-2 h-2 bg-gray-400 rounded-full"></span>
+                            <span class="w-2 h-2 bg-gray-400 rounded-full"></span>
+                            <span class="w-2 h-2 bg-gray-400 rounded-full"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="border-t border-gray-200 p-4">
+                <div class="flex space-x-3">
+                    <input 
+                        type="text" 
+                        id="messageInput" 
+                        placeholder="Type your question about digital technology..."
+                        class="flex-1 border border-gray-300 rounded-2xl px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                        onkeypress="handleKeyPress(event)"
+                    >
+                    <button 
+                        onclick="sendMessage()" 
+                        class="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-2xl hover:from-blue-600 hover:to-purple-700 transition-all shadow-lg hover:shadow-xl"
+                    >
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Knowledge base with multilingual responses
+        const knowledgeBase = {
+            en: {
+                whatsapp: {
+                    question: "How do I use WhatsApp?",
+                    answer: "WhatsApp is a messaging app. Here's how to get started:\n\n1. Download WhatsApp from Play Store\n2. Enter your phone number for verification\n3. Add contacts by tapping the '+' button\n4. Send messages by typing and tapping send\n5. Make voice calls by tapping the phone icon\n6. Share photos by tapping the camera icon\n\nWould you like to know about any specific WhatsApp feature?"
+                },
+                payment: {
+                    question: "How do digital payments work?",
+                    answer: "Digital payments let you send money using your phone. Here's how:\n\n1. Download apps like PhonePe, Google Pay, or Paytm\n2. Link your bank account or add money to wallet\n3. To send money: Enter recipient's number/UPI ID\n4. Enter amount and your PIN\n5. Money is transferred instantly\n\nAlways verify the recipient before sending money!"
+                },
+                internet: {
+                    question: "What are internet basics?",
+                    answer: "The Internet connects devices worldwide. Basic concepts:\n\n1. WiFi: Wireless internet connection\n2. Browser: Apps like Chrome to visit websites\n3. Search: Use Google to find information\n4. Email: Send digital messages\n5. Download: Save files from internet to your phone\n\nStart with simple searches and gradually explore more features!"
+                },
+                safety: {
+                    question: "How to stay safe online?",
+                    answer: "Online safety is very important. Follow these tips:\n\n1. Never share passwords with anyone\n2. Don't click suspicious links in messages\n3. Verify before making online payments\n4. Don't share personal information with strangers\n5. Use official app stores for downloads\n6. Keep your apps updated\n\nIf something seems suspicious, ask someone you trust!"
+                },
+                greeting: "Hello! I'm here to help you learn digital technology. What would you like to know?",
+                unknown: "I'm still learning! Could you ask about WhatsApp, digital payments, internet basics, or online safety? Or try asking in simpler words."
+            },
+            hi: {
+                whatsapp: {
+                    question: "WhatsApp कैसे इस्तेमाल करें?",
+                    answer: "WhatsApp एक मैसेजिंग ऐप है। शुरुआत करने के लिए:\n\n1. Play Store से WhatsApp डाउनलोड करें\n2. वेरिफिकेशन के लिए अपना फोन नंबर डालें\n3. '+' बटन दबाकर contacts जोड़ें\n4. टाइप करके message भेजें\n5. फोन आइकन दबाकर call करें\n6. कैमरा आइकन से फोटो शेयर करें\n\nक्या आप WhatsApp की किसी खास फीचर के बारे में जानना चाहते हैं?"
+                },
+                payment: {
+                    question: "डिजिटल पेमेंट कैसे काम करता है?",
+                    answer: "डिजिटल पेमेंट से आप फोन से पैसे भेज सकते हैं:\n\n1. PhonePe, Google Pay, या Paytm जैसे ऐप डाउनलोड करें\n2. अपना बैंक अकाउंट लिंक करें या wallet में पैसे डालें\n3. पैसे भेजने के लिए: प्राप्तकर्ता का नंबर/UPI ID डालें\n4. राशि और अपना PIN डालें\n5. पैसे तुरंत transfer हो जाएंगे\n\nपैसे भेजने से पहले हमेशा सही व्यक्ति का नाम चेक करें!"
+                },
+                internet: {
+                    question: "इंटरनेट की बुनियादी बातें क्या हैं?",
+                    answer: "Internet दुनियाभर के devices को जोड़ता है। मूल बातें:\n\n1. WiFi: वायरलेस इंटरनेट कनेक्शन\n2. Browser: Chrome जैसे apps से websites देखें\n3. Search: Google से जानकारी खोजें\n4. Email: डिजिटल संदेश भेजें\n5. Download: इंटरनेट से फाइलें अपने फोन में save करें\n\nसबसे पहले simple searches करें, फिर धीरे-धीरे और features explore करें!"
+                },
+                safety: {
+                    question: "ऑनलाइन सुरक्षित कैसे रहें?",
+                    answer: "ऑनलाइन सुरक्षा बहुत जरूरी है। ये tips follow करें:\n\n1. Password किसी के साथ share न करें\n2. Messages में आने वाले suspicious links पर click न करें\n3. Online payment से पहले verify करें\n4. अजनबियों को personal information न दें\n5. Apps सिर्फ official stores से download करें\n6. अपने apps को updated रखें\n\nअगर कुछ suspicious लगे तो किसी भरोसेमंद व्यक्ति से पूछें!"
+                },
+                greeting: "नमस्ते! मैं आपको digital technology सीखने में मदद करूंगा। आप क्या जानना चाहते हैं?",
+                unknown: "मैं अभी भी सीख रहा हूं! क्या आप WhatsApp, digital payments, internet basics, या online safety के बारे में पूछ सकते हैं? या फिर आसान शब्दों में पूछें।"
+            },
+            te: {
+                whatsapp: {
+                    question: "WhatsApp ఎలా వాడాలి?",
+                    answer: "WhatsApp ఒక messaging app. మొదలు పెట్టడానికి:\n\n1. Play Store నుండి WhatsApp download చేయండి\n2. Verification కోసం మీ phone number ఇవ్వండి\n3. '+' button నొక్కి contacts add చేయండి\n4. Type చేసి message పంపండి\n5. Phone icon నొక్కి call చేయండి\n6. Camera icon తో photos share చేయండి\n\nWhatsApp లో ఏదైనా specific feature గురించి తెలుసుకోవాలనుకుంటున్నారా?"
+                },
+                payment: {
+                    question: "Digital payments ఎలా పని చేస్తాయి?",
+                    answer: "Digital payments తో మీరు phone వాడి డబ్బు పంపవచ్చు:\n\n1. PhonePe, Google Pay, లేదా Paytm వంటి apps download చేయండి\n2. మీ bank account link చేయండి లేదా wallet లో డబ్బు వేయండి\n3. డబ్బు పంపడానికి: స్వీకరించేవారి number/UPI ID ఇవ్వండి\n4. Amount మరియు మీ PIN ఇవ్వండి\n5. డబ్బు వెంటనే transfer అవుతుంది\n\nడబ్బు పంపే ముందు ఎల్లప్పుడూ సరైన వ్యక్తి పేరు check చేయండి!"
+                },
+                internet: {
+                    question: "Internet basics ఏమిటి?",
+                    answer: "Internet ప్రపంచవ్యాప్తంగా devices ని కలుపుతుంది. ప్రాథమిక విషయాలు:\n\n1. WiFi: Wireless internet connection\n2. Browser: Chrome వంటి apps తో websites చూడండి\n3. Search: Google తో information వెతకండి\n4. Email: Digital messages పంపండి\n5. Download: Internet నుండి files మీ phone లో save చేయండి\n\nమొదట simple searches చేయండి, తర్వాత మెల్లమెల్లగా ఇతర features explore చేయండి!"
+                },
+                safety: {
+                    question: "Online లో safe గా ఎలా ఉండాలి?",
+                    answer: "Online safety చాలా important. ఈ tips follow చేయండి:\n\n1. Password ఎవరితోనూ share చేయకండి\n2. Messages లో వచ్చే suspicious links click చేయకండి\n3. Online payment చేసే ముందు verify చేయండి\n4. Strangers కు personal information ఇవ్వకండి\n5. Apps ని official stores నుండే download చేయండి\n6. మీ apps ని updated గా ఉంచండి\n\nఎదైనా suspicious అనిపిస్తే మీరు నమ్మే వ్యక్తిని అడగండి!"
+                },
+                greeting: "నమస్కారం! నేను మీకు digital technology నేర్చుకోవడంలో సహాయం చేస్తాను. మీరు ఏమి తెలుసుకోవాలనుకుంటున్నారు?",
+                unknown: "నేను ఇంకా నేర్చుకుంటున్నాను! మీరు WhatsApp, digital payments, internet basics, లేదా online safety గురించి అడగవచ్చా? లేదా సులభమైన పదాలలో అడగండి."
+            }
+        };
+
+        let currentLanguage = 'en';
+        let chatHistory = [];
+
+        // Initialize chatbot
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('languageSelect').addEventListener('change', function() {
+                currentLanguage = this.value;
+                addMessage('bot', knowledgeBase[currentLanguage].greeting);
+            });
+        });
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+            
+            if (message === '') return;
+            
+            addMessage('user', message);
+            input.value = '';
+            
+            // Show typing indicator
+            showTypingIndicator();
+            
+            // Simulate processing delay
+            setTimeout(() => {
+                hideTypingIndicator();
+                const response = generateResponse(message);
+                addMessage('bot', response);
+            }, 1500 + Math.random() * 1000);
+        }
+
+        function askTopic(topic) {
+            const topicData = knowledgeBase[currentLanguage][topic];
+            if (topicData) {
+                addMessage('user', topicData.question);
+                showTypingIndicator();
+                
+                setTimeout(() => {
+                    hideTypingIndicator();
+                    addMessage('bot', topicData.answer);
+                }, 1000);
+            }
+        }
+
+        function generateResponse(message) {
+            const lowerMessage = message.toLowerCase();
+            const kb = knowledgeBase[currentLanguage];
+            
+            // Check for greetings
+            if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('नमस्ते') || lowerMessage.includes('हैलो') || lowerMessage.includes('నమస్కారం')) {
+                return kb.greeting;
+            }
+            
+            // Check for specific topics
+            if (lowerMessage.includes('whatsapp') || lowerMessage.includes('व्हाट्सऐप')) {
+                return kb.whatsapp.answer;
+            }
+            
+            if (lowerMessage.includes('payment') || lowerMessage.includes('pay') || lowerMessage.includes('पेमेंट') || lowerMessage.includes('पैसे') || lowerMessage.includes('डब్బు')) {
+                return kb.payment.answer;
+            }
+            
+            if (lowerMessage.includes('internet') || lowerMessage.includes('इंटरनेट') || lowerMessage.includes('ఇంటర్నెట్')) {
+                return kb.internet.answer;
+            }
+            
+            if (lowerMessage.includes('safety') || lowerMessage.includes('safe') || lowerMessage.includes('सुरक्षा') || lowerMessage.includes('सेफ') || lowerMessage.includes('సేఫ్టీ')) {
+                return kb.safety.answer;
+            }
+            
+            // Default response
+            return kb.unknown;
+        }
+
+        function addMessage(sender, message) {
+            const container = document.getElementById('chatContainer');
+            const messageDiv = document.createElement('div');
+            
+            if (sender === 'user') {
+                messageDiv.innerHTML = `
+                    <div class="flex items-end justify-end mb-4">
+                        <div class="bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-2xl rounded-br-sm px-4 py-3 max-w-md">
+                            <p>${message}</p>
+                        </div>
+                        <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center text-gray-600 text-sm ml-3">
+                            👤
+                        </div>
+                    </div>
+                `;
+            } else {
+                messageDiv.innerHTML = `
+                    <div class="flex items-start mb-4">
+                        <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-sm">
+                            🤖
+                        </div>
+                        <div class="bg-gray-100 rounded-2xl rounded-tl-sm px-4 py-3 max-w-md ml-3">
+                            <p style="white-space: pre-line;">${message}</p>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            container.appendChild(messageDiv);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            document.querySelector('.typing-indicator').classList.add('active');
+            const container = document.getElementById('chatContainer');
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function hideTypingIndicator() {
+            document.querySelector('.typing-indicator').classList.remove('active');
+        }
+    </script>
+</body>
+</html>
